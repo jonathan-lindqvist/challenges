@@ -1,5 +1,3 @@
-
-
 def fizzbuzz
   final_string = ""
   (1..100).each do |number|
