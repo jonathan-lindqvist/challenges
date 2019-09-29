@@ -2,9 +2,6 @@
 class Game {
   constructor(){
     this.grid = this.makeArray()
-    console.log(this.grid)
-    console.log(this.grid.length)
-   
   }
 
   makeArray(){
@@ -21,26 +18,60 @@ class Game {
   }
 
   startGame(){
-    console.clear()
+    // console.clear()
     var next_gen = this.makeArray()
-    //console.table(next_gen)
-    console.table(this.grid)
-    this.update_grid()
+    // console.table(this.grid)
+    next_gen = this.update_grid(next_gen)
+    console.log(this.grid)
+    this.grid = next_gen
+    console.log(this.grid)
   }
-
-  update_grid(){
+  
+  update_grid(next_gen){
     for(let row_index = 0; row_index < this.grid.length; row_index++){
       let row = this.grid[row_index]
+
       for(let cell_index = 0; cell_index < row.length; cell_index++){
         let alive_neighbours = this.check_neighbours(row_index, cell_index)
+        if(alive_neighbours < 2){
+          next_gen[row_index][cell_index] = 0
+        }else if(alive_neighbours > 3){
+          next_gen[row_index][cell_index] = 0
+        }else if(alive_neighbours === 3){
+          next_gen[row_index][cell_index] = 1
+        }else{
+          next_gen[row_index][cell_index] = this.grid[row_index][cell_index]
+        }
       }
     }
+    return next_gen
   }
 
   check_neighbours(y, x){
     let neighbours = 0
     let x_buffer = -1
     let y_buffer = -1
+
+    for(let times = 0; times <= 9; times++){
+      if(this.cellExists(y + y_buffer, x + x_buffer)){
+        neighbours += this.grid[y + y_buffer][x + x_buffer]
+      }
+      x_buffer += 1
+      if(x_buffer === 2){
+        x_buffer = -1
+        y_buffer += 1
+      }
+    }
+    neighbours -= this.grid[y][x]
+    return neighbours
+  }
+
+  cellExists(y, x){
+    if(y <= this.grid.length - 1 && y >= 0){
+      if(x <= this.grid[0].length - 1 && x >= 0){
+        return true
+      }
+    }
   }
 }
 
