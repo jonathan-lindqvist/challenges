@@ -18,13 +18,17 @@ class Game {
   }
 
   startGame(){
-    // console.clear()
-    var next_gen = this.makeArray()
-    // console.table(this.grid)
-    next_gen = this.update_grid(next_gen)
-    console.log(this.grid)
-    this.grid = next_gen
-    console.log(this.grid)
+    let gen = 0
+    while(gen < 5){
+      console.clear()
+      let next_gen = this.makeArray()
+      console.table(this.grid)
+      next_gen = this.update_grid(next_gen)
+      //  console.table(next_gen)
+      this.grid = next_gen
+      alert("Next gen") // This is not the best solution, but it just for basic visuals. A better solution would be using a canvas.
+      gen++
+    }
   }
   
   update_grid(next_gen){
@@ -33,6 +37,7 @@ class Game {
 
       for(let cell_index = 0; cell_index < row.length; cell_index++){
         let alive_neighbours = this.check_neighbours(row_index, cell_index)
+        // console.log(`Alive ${alive_neighbours} for: ${row_index}, ${cell_index}`)
         if(alive_neighbours < 2){
           next_gen[row_index][cell_index] = 0
         }else if(alive_neighbours > 3){
@@ -51,9 +56,10 @@ class Game {
     let neighbours = 0
     let x_buffer = -1
     let y_buffer = -1
-
-    for(let times = 0; times <= 9; times++){
+    
+    for(let times = 0; times < 9; times++){
       if(this.cellExists(y + y_buffer, x + x_buffer)){
+        // console.log(`${y + y_buffer},${x + x_buffer} = ${this.grid[y + y_buffer][x + x_buffer]}` )
         neighbours += this.grid[y + y_buffer][x + x_buffer]
       }
       x_buffer += 1
@@ -65,7 +71,7 @@ class Game {
     neighbours -= this.grid[y][x]
     return neighbours
   }
-
+  
   cellExists(y, x){
     if(y <= this.grid.length - 1 && y >= 0){
       if(x <= this.grid[0].length - 1 && x >= 0){
