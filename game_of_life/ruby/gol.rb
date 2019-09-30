@@ -49,7 +49,7 @@ class Game
         elsif alive_neigbours == 3
           @next_gen[row_index][cell_index] = 1
         else
-          @next_gen[row_index][cell_index] == @grid[row_index][cell_index]
+          @next_gen[row_index][cell_index] = @grid[row_index][cell_index]
         end
       end
     end
